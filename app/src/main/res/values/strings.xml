@@ -17,4 +17,7 @@
 <resources>
     <string name="app_name">Now in Android</string>
     <string name="not_connected">⚠️ You aren’t connected to the internet</string>
+    <string name="for_you_widget_title">Now In Android - For You</string>
+    <string name="for_you_widget_empty">No news resources found matching your followed topics.</string>
+    <string name="for_you_widget_label">NIA For You Feed</string>
 </resources>
