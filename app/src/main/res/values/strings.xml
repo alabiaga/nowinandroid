@@ -20,4 +20,9 @@
     <string name="for_you_widget_title">Now In Android - For You</string>
     <string name="for_you_widget_empty">No news resources found matching your followed topics.</string>
     <string name="for_you_widget_label">NIA For You Feed</string>
+    <string name="search_widget_label">NIA Archive Search</string>
+    <string name="search_widget_hint">Search news archives…</string>
+    <string name="search_widget_button_desc">Search</string>
+    <string name="search_widget_empty">Search for articles to see results here.</string>
+    <string name="search_widget_bookmark_desc">Bookmark</string>
 </resources>

@@ -16,6 +16,7 @@
 
 package com.google.samples.apps.nowinandroid.ui
 
+import android.content.Intent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -91,6 +92,7 @@ fun NiaApp(
     appState: NiaAppState,
     modifier: Modifier = Modifier,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
+    intent: Intent? = null,
 ) {
     val shouldShowGradientBackground = appState.navigationState.currentTopLevelKey == ForYouNavKey
     var showSettingsDialog by rememberSaveable { mutableStateOf(false) }
@@ -126,6 +128,7 @@ fun NiaApp(
                     onSettingsDismissed = { showSettingsDialog = false },
                     onTopAppBarActionClick = { showSettingsDialog = true },
                     windowAdaptiveInfo = windowAdaptiveInfo,
+                    intent = intent,
                 )
             }
         }
@@ -145,6 +148,7 @@ internal fun NiaApp(
     onTopAppBarActionClick: () -> Unit,
     modifier: Modifier = Modifier,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
+    intent: Intent? = null,
 ) {
     val unreadNavKeys by appState.topLevelNavKeysWithUnreadResources
         .collectAsStateWithLifecycle()
@@ -158,6 +162,15 @@ internal fun NiaApp(
     val snackbarHostState = LocalSnackbarHostState.current
 
     val navigator = remember { Navigator(appState.navigationState) }
+
+    LaunchedEffect(intent) {
+        intent?.data?.let { uri ->
+            when {
+                uri.path == "/search" -> navigator.navigate(SearchNavKey)
+                uri.path?.startsWith("/foryou") == true -> navigator.navigate(ForYouNavKey)
+            }
+        }
+    }
 
     NiaNavigationSuiteScaffold(
         navigationSuiteItems = {

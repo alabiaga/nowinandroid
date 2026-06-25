@@ -16,6 +16,7 @@
 
 package com.google.samples.apps.nowinandroid
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -75,9 +76,13 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
+    private var intentState by mutableStateOf<Intent?>(null)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        intentState = intent
 
         // We keep this as a mutable state, so that we can track changes inside the composition.
         // This allows us to react to dark/light mode changes.
@@ -150,7 +155,7 @@ class MainActivity : ComponentActivity() {
                     androidTheme = themeSettings.androidTheme,
                     disableDynamicTheming = themeSettings.disableDynamicTheming,
                 ) {
-                    NiaApp(appState)
+                    NiaApp(appState, intent = intentState)
                 }
             }
         }
@@ -164,6 +169,12 @@ class MainActivity : ComponentActivity() {
     override fun onPause() {
         super.onPause()
         lazyStats.get().isTrackingEnabled = false
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        intentState = intent
     }
 }
 
